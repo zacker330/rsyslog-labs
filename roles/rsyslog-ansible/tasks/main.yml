@@ -7,10 +7,10 @@
     owner: root
     group: root
     mode: "u=rw,og=r"
+  tags: rsyslog
 
 - name: restart rsyslog
   service:
     name: rsyslog
     state: restarted
-
-    
+  tags: rsyslog
