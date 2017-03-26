@@ -1,0 +1,36 @@
+---
+- hosts: all
+  become: true
+  vars_files:
+    - vars/test-env.yml
+  roles:
+    - common
+
+- hosts: rsyslog1
+  become: true
+  vars_files:
+    - vars/test-env.yml
+  roles:
+    - {"role": rsyslog-ansible}
+    - {"role": "ansible-role-firewall", "firewall_allowed_tcp_ports":["22", "{{rsyslog_server_output_port}}"]}
+
+- hosts: rsyslog2
+  become: true
+  vars_files:
+    - vars/test-env.yml
+  roles:
+    - jdk8
+    - { "role": "elasticsearch-ansible"}
+    - {"role": "kibana-ansible"}
+    - {"role": "ansible-role-firewall", "firewall_allowed_tcp_ports":["22", "{{elasticsearch_http_port}}", "{{kibana_http_port}}"]}
+
+
+
+- hosts: rsyslog3
+  become: true
+  vars_files:
+    - vars/test-env.yml
+  roles:
+    - jdk8
+    - {"role": logstash-ansible}
+    - {"role": "ansible-role-firewall", "firewall_allowed_tcp_ports":["22", "{{rsyslog_server_output_port}}"], "firewall_allowed_udp_ports":["{{rsyslog_server_output_port}}"]}

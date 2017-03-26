@@ -1,0 +1,5 @@
+---
+# defaults file for rsyslog-ansible-role
+rsyslog_input_file_path: /tmp/
+rsyslog_InputFileTag: logTag
+rsyslog_log_template: <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% %procid% %msgid% [TOKEN@32473 tag=\"TAG\"] %msg%\n

@@ -1,0 +1,8 @@
+---
+JAVA_HOME: /usr/lib/jvm/java
+elasticsearch_MAX_OPEN_FILES: 65536
+elasticsearch_vm_max_map_count: 262144
+elasticsearch_http_port: 9200
+elasticsearch_host_url: "http://192.168.55.12:{{elasticsearch_http_port}}"
+rsyslog_server: 192.168.55.13
+rsyslog_server_output_port: 12345

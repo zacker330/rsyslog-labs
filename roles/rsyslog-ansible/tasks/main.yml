@@ -1,0 +1,16 @@
+---
+# tasks file for rsyslog-ansible-role
+- name: copy rsyslog.conf
+  template:
+    src: rsyslog.conf
+    dest: /etc/rsyslog.conf
+    owner: root
+    group: root
+    mode: "u=rw,og=r"
+
+- name: restart rsyslog
+  service:
+    name: rsyslog
+    state: restarted
+
+    

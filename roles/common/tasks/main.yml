@@ -1,0 +1,41 @@
+---
+- include: "centos.yml"
+  when: ansible_os_family == 'RedHat'
+
+- include: ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+
+- name: "create {{usergroup}} "
+  group: name={{ usergroup }} state=present
+  when: usergroup is defined
+
+- name: "create {{ username }}"
+  user: name={{ username }} createhome=yes  groups={{ usergroup }} append=yes
+  when: username is defined
+
+# - name: copy hosts
+#   copy: src="hosts" dest="/etc/hosts" force=yes
+
+# - name: strict host key checking no
+#   blockinfile:
+#     dest: /etc/ssh/ssh_config
+#     block: |
+#        StrictHostKeyChecking no
+#   tags:
+#     - common
+
+
+- name: add /sbin to path
+  lineinfile: dest="/etc/profile" line="PATH=/sbin/:$PATH"
+  tags:
+    - common
+
+- name: update host
+  blockinfile:
+    backup: yes
+    dest: "/etc/hosts"
+    block: |
+      {{ hosts }}
+  when: hosts is defined
+  tags:
+    - common
